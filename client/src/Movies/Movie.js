@@ -3,20 +3,21 @@ import axios from 'axios';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import MovieCard from './MovieCard';
 
-export default function Movie(props) {
-  const { movieList, saved } = props;
+export default function Movie({ movieList, saved }) {
+
   const [movie, setMovie] = useState();
 
   const params = useParams();
-  console.log(params, "params")
+  console.log(params, "params");
+  console.log(movieList, "movielist from Movie Component");
 
-  let movieId = movieList.find(movie => movie.id == Number(params.movie));
-  //const heros = hero.find(item => item.id === Number(params.hero));
+
   // Change ^^^ that line and use a hook to obtain the :id parameter from the URL
+  //let movieId = movieList.find(mov => mov.id === Number(params.movieId));
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/movies/${movieId}`) // Study this endpoint with Postman
+      .get(`http://localhost:5000/api/movies/${params.movieId}`) // Study this endpoint with Postman
       .then(response => {
         // Study this response with a breakpoint or log statements
         // and set the response data as the 'movie' slice of state
@@ -28,10 +29,11 @@ export default function Movie(props) {
       });
     // This effect should run every time time
     // the `id` changes... How could we do this?
-  }, [movieId]);
+  }, [params]);
 
   // Uncomment this only when you have moved on to the stretch goals
   // const saveMovie = evt => { }
+
 
 
   if (!movie) {
@@ -43,7 +45,13 @@ export default function Movie(props) {
   return (
     <div className="save-wrapper">
       <div className="movie-card">
-        <MovieCard movie={movie} />
+        <h2>{title}</h2>
+        <div className="movie-director">
+          Director: <em>{director}</em>
+        </div>
+        <div className="movie-metascore">
+          Metascore: <strong>{metascore}</strong>
+        </div>
         <h3>Actors</h3>
 
         {stars.map(star => (
