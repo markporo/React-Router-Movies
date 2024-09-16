@@ -1,17 +1,20 @@
 import React from 'react';
+import MovieCard from './MovieCard';
+import { Link } from 'react-router-dom';
 
-export default function MovieList(props) {
+export default function MovieList({ movieList }) {
   return (
     <div className="movie-list">
-      {props.movies.map(movie => (
-        <MovieDetails key={movie.id} movie={movie} />
+      {movieList.map(movie => (
+        <Link to={`/movies/${movie.id}`}><MovieDetails key={movie.id} movie={movie} /></Link>
       ))}
     </div>
   );
 }
 
-function MovieDetails(props) {
-  const { title, director, metascore } = props.movie;
+function MovieDetails({ movie, key }) {
+  const { metascore, director, title } = movie;
+  console.log(movie, "movie details props...should be key and movie")
 
   return (
     <div className="movie-card">
